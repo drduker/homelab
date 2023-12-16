@@ -8,6 +8,6 @@ resources:
   - ./rook-ceph/ks.yaml
   # - ./nfs-subdir/ks.yaml
   - ./snapshot-controller/ks.yaml
-  - ./synology-csi/ks.yaml
+  # - ./synology-csi/ks.yaml
   - ./volsync/ks.yaml
 
