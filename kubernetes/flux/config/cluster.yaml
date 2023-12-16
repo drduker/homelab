@@ -8,8 +8,8 @@ spec:
   interval: 30m
   ref:
     branch: main
-  secretRef:
-    name: github-deploy-key
+  # secretRef:
+  #   name: github-deploy-key
   url: https://github.com/drduker/homelab.git
   ignore: |
     # exclude all
