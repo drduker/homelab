@@ -427,18 +427,19 @@ data:
   cgroup-root: /sys/fs/cgroup
   cilium-endpoint-gc-interval: 5m0s
   cluster-id: "1"
-  cluster-name: jsdyb-k8s-001
+  cluster-name: pickhaus
   cni-exclusive: "false"
   cni-log-file: /var/run/cilium/cilium-cni.log
   custom-cni-conf: "false"
   debug: "false"
   debug-verbose: ""
   disable-cnp-status-updates: "false"
+  egress-gateway-reconciliation-trigger-interval: 1s
   enable-auto-protect-node-port-range: "true"
   enable-bandwidth-manager: "true"
   enable-bbr: "true"
   enable-bgp-control-plane: "true"
-  enable-bpf-clock-probe: "true"
+  enable-bpf-clock-probe: "false"
   enable-bpf-masquerade: "true"
   enable-bpf-tproxy: "true"
   enable-endpoint-health-checking: "true"
@@ -471,10 +472,12 @@ data:
   ipam: kubernetes
   ipam-cilium-node-update-rate: 15s
   ipv4-native-routing-cidr: 172.22.0.0/16
+  k8s-client-burst: "10"
+  k8s-client-qps: "5"
   kube-proxy-replacement: strict
   kube-proxy-replacement-healthz-bind-address: 0.0.0.0:10256
   mesh-auth-enabled: "true"
-  mesh-auth-expired-gc-interval: 15m0s
+  mesh-auth-gc-interval: 5m0s
   mesh-auth-queue-size: "1024"
   mesh-auth-rotated-identities-queue-size: "1024"
   monitor-aggregation: medium
@@ -546,7 +549,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: cca9f37856931c5be999f77fceb55536c31fdaac0ce48a6a2cae722790cbe583
+        cilium.io/cilium-configmap-checksum: 99b2a142b2c789f6032a1ffd717378911ae454e5624390a7455ab278cf561600
       labels:
         app.kubernetes.io/name: cilium-operator
         app.kubernetes.io/part-of: cilium
@@ -585,10 +588,10 @@ spec:
               name: cilium-config
               optional: true
         - name: KUBERNETES_SERVICE_HOST
-          value: jsdyb-k8s-001.internal.davishaus.dev
+          value: pickhaus.internal.pick.haus
         - name: KUBERNETES_SERVICE_PORT
           value: "6443"
-        image: quay.io/cilium/operator-generic:v1.14.0-snapshot.4
+        image: quay.io/cilium/operator-generic:v1.14.4@sha256:f0f05e4ba3bb1fe0e4b91144fa4fea637701aba02e6c00b23bd03b4a7e1dfd55
         imagePullPolicy: IfNotPresent
         livenessProbe:
           httpGet:
@@ -649,7 +652,7 @@ spec:
   template:
     metadata:
       annotations:
-        cilium.io/cilium-configmap-checksum: cca9f37856931c5be999f77fceb55536c31fdaac0ce48a6a2cae722790cbe583
+        cilium.io/cilium-configmap-checksum: 99b2a142b2c789f6032a1ffd717378911ae454e5624390a7455ab278cf561600
         container.apparmor.security.beta.kubernetes.io/cilium-agent: unconfined
         container.apparmor.security.beta.kubernetes.io/clean-cilium-state: unconfined
       labels:
@@ -684,12 +687,37 @@ spec:
         - name: CILIUM_CLUSTERMESH_CONFIG
           value: /var/lib/cilium/clustermesh/
         - name: KUBERNETES_SERVICE_HOST
-          value: jsdyb-k8s-001.internal.davishaus.dev
+          value: pickhaus.internal.pick.haus
         - name: KUBERNETES_SERVICE_PORT
           value: "6443"
-        image: quay.io/cilium/cilium:v1.14.0-snapshot.4
+        image: quay.io/cilium/cilium:v1.14.4@sha256:4981767b787c69126e190e33aee93d5a076639083c21f0e7c29596a519c64a2e
         imagePullPolicy: IfNotPresent
         lifecycle:
+          postStart:
+            exec:
+              command:
+              - bash
+              - -c
+              - |
+                set -o errexit
+                set -o pipefail
+                set -o nounset
+
+                # When running in AWS ENI mode, it's likely that 'aws-node' has
+                # had a chance to install SNAT iptables rules. These can result
+                # in dropped traffic, so we should attempt to remove them.
+                # We do it using a 'postStart' hook since this may need to run
+                # for nodes which might have already been init'ed but may still
+                # have dangling rules. This is safe because there are no
+                # dependencies on anything that is part of the startup script
+                # itself, and can be safely run multiple times per node (e.g. in
+                # case of a restart).
+                if [[ "$(iptables-save | grep -c 'AWS-SNAT-CHAIN|AWS-CONNMARK-CHAIN')" != "0" ]];
+                then
+                    echo 'Deleting iptables rules created by the AWS CNI VPC plugin'
+                    iptables-save | grep -v 'AWS-SNAT-CHAIN|AWS-CONNMARK-CHAIN' | iptables-restore
+                fi
+                echo 'Done!'
           preStop:
             exec:
               command:
@@ -794,10 +822,10 @@ spec:
               apiVersion: v1
               fieldPath: metadata.namespace
         - name: KUBERNETES_SERVICE_HOST
-          value: jsdyb-k8s-001.internal.davishaus.dev
+          value: pickhaus.internal.pick.haus
         - name: KUBERNETES_SERVICE_PORT
           value: "6443"
-        image: quay.io/cilium/cilium:v1.14.0-snapshot.4
+        image: quay.io/cilium/cilium:v1.14.4@sha256:4981767b787c69126e190e33aee93d5a076639083c21f0e7c29596a519c64a2e
         imagePullPolicy: IfNotPresent
         name: config
         terminationMessagePolicy: FallbackToLogsOnError
@@ -810,7 +838,7 @@ spec:
         - /bin/bash
         - -c
         - --
-        image: quay.io/cilium/cilium:v1.14.0-snapshot.4
+        image: quay.io/cilium/cilium:v1.14.4@sha256:4981767b787c69126e190e33aee93d5a076639083c21f0e7c29596a519c64a2e
         imagePullPolicy: IfNotPresent
         name: mount-bpf-fs
         securityContext:
@@ -836,10 +864,10 @@ spec:
               name: cilium-config
               optional: true
         - name: KUBERNETES_SERVICE_HOST
-          value: jsdyb-k8s-001.internal.davishaus.dev
+          value: pickhaus.internal.pick.haus
         - name: KUBERNETES_SERVICE_PORT
           value: "6443"
-        image: quay.io/cilium/cilium:v1.14.0-snapshot.4
+        image: quay.io/cilium/cilium:v1.14.4@sha256:4981767b787c69126e190e33aee93d5a076639083c21f0e7c29596a519c64a2e
         imagePullPolicy: IfNotPresent
         name: clean-cilium-state
         resources:
@@ -868,7 +896,7 @@ spec:
           name: cilium-run
       - command:
         - /install-plugin.sh
-        image: quay.io/cilium/cilium:v1.14.0-snapshot.4
+        image: quay.io/cilium/cilium:v1.14.4@sha256:4981767b787c69126e190e33aee93d5a076639083c21f0e7c29596a519c64a2e
         imagePullPolicy: IfNotPresent
         name: install-cni-binaries
         resources:
