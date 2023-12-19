@@ -9,7 +9,7 @@ resources:
 configMapGenerator:
   - name: authentik-branding
     files:
-      - ./branding/davishaus-favicon.png
-      - ./branding/davishaus-logo.svg
+      - ./branding/pickhaus-favicon.png
+      - ./branding/pickhaus-logo.svg
     options:
       disableNameSuffixHash: true
