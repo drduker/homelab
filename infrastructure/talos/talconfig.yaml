@@ -2,7 +2,7 @@
 clusterName: ${CLUSTER_NAME}
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.5.4
+talosVersion: v1.6.0
 # renovate: datasource=github-releases extractVersion=^v(?<version>.*)$ depName=kubernetes/kubernetes
 kubernetesVersion: 1.28.3
 
@@ -30,79 +30,49 @@ additionalMachineCertSans:
 
 nodes:
   # intel nuc panther canyon / i7 / 256GB / 1TB SSD / 2TB Nvme
-  - hostname: jsdyb-nuc-001.${INTERNAL_DOMAIN}
+  - hostname: tiny-001.${INTERNAL_DOMAIN}
     controlPlane: true
-    ipAddress: 10.77.0.11
-    installDisk: /dev/sda
+    ipAddress: 192.168.1.83
+    installDisk: /dev/nvme1n1
     disableSearchDomain: true
+    nameservers:
+      - "192.168.1.131"
     networkInterfaces:
-      - interface: eth0
+      - interface: enp2s0f0u2u3
+        addresses:
+          - "192.168.1.83/24"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.254
+            metric: 1024
         dhcp: false
-        vlans:
-          - vlanId: 770
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 1024
-            vip:
-              ip: ${CLUSTER_ENDPOINT_IP}
-          - vlanId: 90
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
+        vip:
+          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels: &controlPlaneLabels
       plan.upgrade.cattle.io/talos: ""
-      topology.kubernetes.io/region: jsdyb
-      topology.kubernetes.io/zone: jsdyb-u
-
+      topology.kubernetes.io/region: pick
+      topology.kubernetes.io/zone: pick-u
   # intel nuc panther canyon / i7 / 256GB / 1TB SSD / 2TB Nvme
-  - hostname: jsdyb-nuc-002.${INTERNAL_DOMAIN}
+  - hostname: tiny-002.${INTERNAL_DOMAIN}
     controlPlane: true
-    ipAddress: 10.77.0.12
-    installDisk: /dev/sda
+    ipAddress: 192.168.1.115
+    installDisk: /dev/nvme1n1
     disableSearchDomain: true
+    nameservers:
+      - "192.168.1.131"
     networkInterfaces:
-      - interface: eth0
+      - interface: enp1s0
         dhcp: false
-        vlans:
-          - vlanId: 770
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 1024
-            vip:
-              ip: ${CLUSTER_ENDPOINT_IP}
-          - vlanId: 90
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
+        addresses:
+          - "192.168.1.115/24"
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.1.254
+            metric: 1024
+        vip:
+          ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels: *controlPlaneLabels
 
-  # intel nuc panther canyon / i7 / 256GB / 1TB SSD / 2TB Nvme
-  - hostname: jsdyb-nuc-003.${INTERNAL_DOMAIN}
-    controlPlane: true
-    ipAddress: 10.77.0.13
-    installDisk: /dev/sda
-    disableSearchDomain: true
-    networkInterfaces:
-      - interface: eth0
-        dhcp: false
-        vlans:
-          - vlanId: 770
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 1024
-            vip:
-              ip: ${CLUSTER_ENDPOINT_IP}
-          - vlanId: 90
-            mtu: 1500
-            dhcp: true
-            dhcpOptions:
-              routeMetric: 4096
-    nodeLabels: *controlPlaneLabels
 
 controlPlane:
   patches:
@@ -112,10 +82,10 @@ controlPlane:
           disabled: true
         etcd:
           advertisedSubnets:
-            - 10.77.0.0/24
+            - 192.168.1.0/24
         extraManifests:
-          - https://raw.githubusercontent.com/JefeDavis/k8s-HomeOps/main/infrastructure/talos/integrations/cni/cilium.yaml
-          - https://raw.githubusercontent.com/JefeDavis/k8s-HomeOps/main/infrastructure/talos/integrations/kubelet-csr-approver/kubelet-csr-approver.yaml
+          - https://raw.githubusercontent.com/drduker/homelab/main/infrastructure/talos/integrations/cni/cilium.yaml
+          - https://raw.githubusercontent.com/drduker/homelab/main/infrastructure/talos/integrations/kubelet-csr-approver/kubelet-csr-approver.yaml
 
     - |-
       - op: remove
@@ -130,9 +100,6 @@ controlPlane:
               - os:admin
             allowedKubernetesNamespaces:
               - system
-          kubePrism:
-            enabled: true
-            port: 7445
 
         files:
           - op: create
@@ -143,12 +110,13 @@ controlPlane:
                   enable_unprivileged_ports = true
                   enable_unprivileged_icmp = true
 
-        install:
-          extensions:
-            - image: ghcr.io/siderolabs/iscsi-tools:v0.1.4@sha256:58cbadb0a315d83e04b240de72c5ac584e9c63b690b2c4fcd629dd1566c3a7a1
-            - image: ghcr.io/siderolabs/i915-ucode:20230310
-            - image: ghcr.io/siderolabs/intel-ucode:20230512
-
+        # install:
+        #   extensions:
+        #     - siderolabs/amdgpu-firmware
+        #     - siderolabs/util-linux-tools
+        #     - image: ghcr.io/siderolabs/nvidia-open-gpu-kernel-modules:535.129.03-v1.6.0
+        #     - image: ghcr.io/siderolabs/nvidia-container-toolkit:535.129.03-v1.13.5
+        #     - image: ghcr.io/siderolabs/nvidia-fabricmanager:535.129.03
         kubelet:
           extraArgs:
             feature-gates: CronJobTimeZone=true,GracefulNodeShutdown=true,NewVolumeManagerReconstruction=false
@@ -157,7 +125,7 @@ controlPlane:
             maxPods: 250
           nodeIP:
             validSubnets:
-              - 10.77.0.0/24
+              - 192.168.1.0/24
 
         network:
           extraHostEntries:
