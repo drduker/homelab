@@ -2,7 +2,7 @@
 autoDirectNodeRoutes: true
 
 bgpControlPlane:
-  enabled: true
+  enabled: false
 
 bandwidthManager:
   enabled: true
@@ -43,7 +43,10 @@ ingressController:
 ipv4NativeRoutingCIDR: 172.22.0.0/16
 
 hubble:
-  enabled: false
+  enabled: true
+
+l2podAnnouncements:
+  enabled: true
 
 kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256
