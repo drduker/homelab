@@ -72,6 +72,12 @@ nodes:
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels: *controlPlaneLabels
+# customization:
+#     systemExtensions:
+#         officialExtensions:
+#             - siderolabs/amdgpu-firmware
+#             - siderolabs/amd-ucode
+#             - siderolabs/iscsi-tools
 
 
 controlPlane:
