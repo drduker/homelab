@@ -12,6 +12,10 @@ bpf:
   masquerade: true
   tproxy: true
 
+k8sClientRateLimit:
+  qps: 32.5
+  burst: 40
+
 cgroup:
   autoMount:
     enabled: false
@@ -47,6 +51,7 @@ hubble:
 
 l2podAnnouncements:
   enabled: true
+  interface: enp1s0
 
 kubeProxyReplacement: strict
 kubeProxyReplacementHealthzBindAddr: 0.0.0.0:10256

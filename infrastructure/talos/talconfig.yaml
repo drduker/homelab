@@ -38,9 +38,9 @@ nodes:
     nameservers:
       - "192.168.1.131"
     networkInterfaces:
-      - interface: enp2s0f0u2u3
+      - interface: enp1s0
         addresses:
-          - "192.168.1.83/24"
+          - "192.168.1.128/24"
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.1.254
