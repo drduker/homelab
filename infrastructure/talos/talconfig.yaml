@@ -2,7 +2,7 @@
 clusterName: ${CLUSTER_NAME}
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.6.0
+talosVersion: v1.6.1
 # renovate: datasource=github-releases extractVersion=^v(?<version>.*)$ depName=kubernetes/kubernetes
 kubernetesVersion: 1.28.3
 
@@ -32,7 +32,7 @@ nodes:
   # intel nuc panther canyon / i7 / 256GB / 1TB SSD / 2TB Nvme
   - hostname: tiny-001.${INTERNAL_DOMAIN}
     controlPlane: true
-    ipAddress: 192.168.1.83
+    ipAddress: 192.168.1.132
     installDisk: /dev/nvme1n1
     disableSearchDomain: true
     nameservers:
@@ -40,7 +40,7 @@ nodes:
     networkInterfaces:
       - interface: enp1s0
         addresses:
-          - "192.168.1.128/24"
+          - "192.168.1.132/24"
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.1.254
@@ -52,6 +52,15 @@ nodes:
       plan.upgrade.cattle.io/talos: ""
       topology.kubernetes.io/region: pick
       topology.kubernetes.io/zone: pick-u
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/util-linux-tools
+            - siderolabs/iscsi-tools
+            # - siderolabs/nvidia-container-toolkit
+            # - siderolabs/nvidia-fabricmanager
+            # - siderolabs/nvidia-open-gpu-kernel-modules
   # intel nuc panther canyon / i7 / 256GB / 1TB SSD / 2TB Nvme
   - hostname: tiny-002.${INTERNAL_DOMAIN}
     controlPlane: true
@@ -72,13 +81,13 @@ nodes:
         vip:
           ip: ${CLUSTER_ENDPOINT_IP}
     nodeLabels: *controlPlaneLabels
-# customization:
-#     systemExtensions:
-#         officialExtensions:
-#             - siderolabs/amdgpu-firmware
-#             - siderolabs/amd-ucode
-#             - siderolabs/iscsi-tools
-
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+          - siderolabs/amdgpu-firmware
+          - siderolabs/amd-ucode
+          - siderolabs/iscsi-tools
 
 controlPlane:
   patches:
