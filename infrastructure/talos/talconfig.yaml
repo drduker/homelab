@@ -40,7 +40,7 @@ nodes:
     nameservers:
       - "192.168.1.131"
     networkInterfaces:
-      - interface: enp1s0
+      - interface: eth0
         addresses:
           - "192.168.1.83/24"
         routes:
