@@ -34,6 +34,8 @@ nodes:
     controlPlane: true
     ipAddress: 192.168.1.83
     installDisk: /dev/nvme1n1
+    installDiskSelector:
+      model: WDC*
     disableSearchDomain: true
     nameservers:
       - "192.168.1.131"
@@ -66,6 +68,8 @@ nodes:
     controlPlane: true
     ipAddress: 192.168.1.115
     installDisk: /dev/nvme1n1
+    installDiskSelector:
+      model: Samsung SSD 980 PRO 2TB
     disableSearchDomain: true
     nameservers:
       - "192.168.1.131"
@@ -105,7 +109,17 @@ controlPlane:
     - |-
       - op: remove
         path: /cluster/apiServer/admissionControl
-
+    - |-
+      - op: add
+        path: /machine/kubelet/extraMounts
+        value:
+          - destination: /var/openebs/local
+            type: bind
+            source: /var/openebs/local
+            options:
+              - bind
+              - rshared
+              - rw
     - |-
       machine:
         features:

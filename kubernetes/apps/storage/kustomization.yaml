@@ -10,4 +10,4 @@ resources:
   # - ./snapshot-controller/ks.yaml
   # - ./synology-csi/ks.yaml
   # - ./volsync/ks.yaml
-  - ./local-storage.yaml
+  # - ./local-storage.yaml # kubernetes
