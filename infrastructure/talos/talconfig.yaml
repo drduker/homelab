@@ -32,7 +32,7 @@ nodes:
   # intel nuc panther canyon / i7 / 256GB / 1TB SSD / 2TB Nvme
   - hostname: tiny-001.${INTERNAL_DOMAIN}
     controlPlane: true
-    ipAddress: 192.168.1.132
+    ipAddress: 192.168.1.83
     installDisk: /dev/nvme1n1
     disableSearchDomain: true
     nameservers:
@@ -40,7 +40,7 @@ nodes:
     networkInterfaces:
       - interface: enp1s0
         addresses:
-          - "192.168.1.132/24"
+          - "192.168.1.83/24"
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.1.254
