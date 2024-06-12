@@ -90,35 +90,4 @@ l2announcements:
 externalIPs:
   enabled: true
 
-# k8sServiceHost: localhost # use master node in kind network
-# k8sServicePort: 7445               # use api server port
-
-# ipv4NativeRoutingCIDR: 172.22.0.0/16
-
-# kubeProxyReplacement: strict
-
-# externalIPs:
-#   enabled: true
-
-# nodePort:
-#   enabled: true
-
-# hostPort:
-#   enabled: true
-
-# image:
-#   pullPolicy: IfNotPresent
-
-# ipam:
-#   mode: kubernetes
-
-# l2announcements:
-#   enabled: true
-
-# hubble:
-#   enabled: true
-#   relay:
-#     enabled: true
-#   ui:
-#     enabled: true
 
