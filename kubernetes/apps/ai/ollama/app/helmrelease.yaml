@@ -101,7 +101,7 @@ spec:
     ingress:
       ui:
         enabled: true
-        className: nginx-external
+        className: nginx
         annotations:
           cert-manager.io/cluster-issuer: letsencrypt-prod
           auth.home.arpa/enabled: "true"
