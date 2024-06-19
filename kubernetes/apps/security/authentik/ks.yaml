@@ -46,8 +46,8 @@ spec:
   dependsOn:
     - name: cluster-apps-authentik-database
     - name: cluster-apps-kyverno
-    - name: cluster-apps-smtp-relay
-    - name: cluster-apps-grafana
+    # - name: cluster-apps-smtp-relay
+    # - name: cluster-apps-grafana
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -69,5 +69,5 @@ spec:
         name: grafana-secret
   dependsOn:
     - name: cluster-apps-authentik
-    - name: cluster-apps-plex
+    # - name: cluster-apps-plex
  
