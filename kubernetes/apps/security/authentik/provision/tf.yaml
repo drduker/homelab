@@ -114,14 +114,14 @@ spec:
           group: Media
     - name: oauth2_applications
       value:
-        Grafana:
-          url: https://grafana.${EXTERNAL_DOMAIN}
-          group: Monitor
-          client_id: grafana
-          client_type: confidential
-          client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
-          redirect_uris: 
-            - https://grafana.${EXTERNAL_DOMAIN}/login/generic_oauth
+        # Grafana:
+        #   url: https://grafana.${EXTERNAL_DOMAIN}
+        #   group: Monitor
+        #   client_id: grafana
+        #   client_type: confidential
+        #   client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
+        #   redirect_uris: 
+        #     - https://grafana.${EXTERNAL_DOMAIN}/login/generic_oauth
         Mealie:
           url: https://mealie.${EXTERNAL_DOMAIN}
           group: Home
