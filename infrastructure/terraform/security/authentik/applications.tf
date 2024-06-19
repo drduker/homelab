@@ -24,7 +24,7 @@ resource "authentik_service_connection_kubernetes" "local" {
 }
 
 resource "authentik_outpost" "outpost" {
-  name               = "pickhaus Outpost"
+  name               = "Pickhaus Outpost"
   service_connection = authentik_service_connection_kubernetes.local.id
   protocol_providers = [for proxy in authentik_provider_proxy.proxy_providers : proxy.id]
   config = jsonencode({
