@@ -7,7 +7,7 @@ terraform {
   }
 
   cloud {
-    organization = "davishaus"
+    organization = "pickhaus"
     workspaces {
       name = "sonarr-provisioner"
     }
