@@ -18,4 +18,4 @@ spec:
     provider: sops
   dependsOn:
     - name: cluster-apps-rook-ceph-cluster
-    - name: cluster-apps-media-common-mounts
+    # - name: cluster-apps-media-common-mounts
