@@ -2,11 +2,11 @@ terraform {
   required_providers {
     authentik = {
       source  = "goauthentik/authentik"
-      version = "2023.10.0"
+      version = "2024.4.2"
     }
   }
   cloud {
-    organization = "pickhaus"
+    organization = "davishaus"
     workspaces {
       name = "authentik-provisioner"
     }

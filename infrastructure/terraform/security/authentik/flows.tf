@@ -1,7 +1,7 @@
-resource "authentik_flow" "pickhaus-authentication" {
-  name               = "pickhaus Authentication Flow"
-  slug               = "pickhaus-authentication-flow"
-  title              = "Welcome to pickhaus!"
+resource "authentik_flow" "davishaus-authentication" {
+  name               = "DavisHaus Authentication Flow"
+  slug               = "davishaus-authentication-flow"
+  title              = "Welcome to Davishaus!"
   designation        = "authentication"
   background         = "/static/dist/assets/images/flow_background.jpg"
   compatibility_mode = false
@@ -9,7 +9,7 @@ resource "authentik_flow" "pickhaus-authentication" {
 
 locals {
   stage_bindings = {
-    0 = authentik_stage_identification.pickhaus-identity-stage.id
+    0 = authentik_stage_identification.davishaus-identity-stage.id
     1 = data.authentik_stage.password-stage.id
     2 = data.authentik_stage.mfa-validation-stage.id
     3 = data.authentik_stage.user-login-stage.id
@@ -18,7 +18,7 @@ locals {
 
 resource "authentik_flow_stage_binding" "dh-sb-identity" {
   for_each = local.stage_bindings
-  target   = authentik_flow.pickhaus-authentication.uuid
+  target   = authentik_flow.davishaus-authentication.uuid
   stage    = each.value
   order    = each.key
 }

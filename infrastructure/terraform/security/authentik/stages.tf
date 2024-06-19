@@ -1,5 +1,5 @@
-resource "authentik_stage_identification" "pickhaus-identity-stage" {
-  name = "pickhaus-identification"
+resource "authentik_stage_identification" "davishaus-identity-stage" {
+  name = "davishaus-identification"
   user_fields = [
     "username",
     "email"

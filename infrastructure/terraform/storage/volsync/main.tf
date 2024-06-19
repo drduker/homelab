@@ -6,7 +6,7 @@ terraform {
     }
   }
   cloud {
-    organization = "pickhaus"
+    organization = "davishaus"
     workspaces {
       name = "volsync-provisioner"
     }

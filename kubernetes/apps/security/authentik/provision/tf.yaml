@@ -8,11 +8,6 @@ spec:
   path: "./"
   interval: 10m
   approvePlan: auto
-  backendConfig:
-    disable: true
-  cliConfigSecretRef:
-    name: tf-cloud-token
-    namespace: flux-system
   sourceRef:
     kind: OCIRepository
     name: oci-terraform-authentik
@@ -29,6 +24,8 @@ spec:
       varsKeys:
         - PLEX_SERVER_ID
   vars:
+    - name: authentik_url
+      value: http://authentik-server.security.svc.cluster.local:80
     - name: authentik_host
       value: https://auth.${EXTERNAL_DOMAIN}
     - name: external_domain
@@ -38,9 +35,15 @@ spec:
         Alert-Manager:
           url: https://alert-manager.${EXTERNAL_DOMAIN}
           group: Monitor
+        Baby-Buddy:
+          url: https://baby-buddy.${EXTERNAL_DOMAIN}
+          group: Home
         Bazarr:
           url: https://bazarr.${EXTERNAL_DOMAIN}
           group: Media
+        EspHome:
+          url: https://esphome.${EXTERNAL_DOMAIN}
+          group: Home
         Hajimari:
           url: https://portal.${EXTERNAL_DOMAIN}
           group: Home Page
@@ -59,6 +62,9 @@ spec:
         OctoPrint:
           url: https://octoprint.${EXTERNAL_DOMAIN}
           group: Network
+        Ollama:
+          url: https://ollama.${EXTERNAL_DOMAIN}
+          group: AI
         Prometheus:
           url: https://prometheus.${EXTERNAL_DOMAIN}
           group: Monitor
@@ -74,12 +80,12 @@ spec:
         Radarr:
           url: https://radarr.${EXTERNAL_DOMAIN}
           group: Media
-        Rook:
-          url: https://rook.${EXTERNAL_DOMAIN}
-          group: Storage
         Sonarr:
           url: https://sonarr.${EXTERNAL_DOMAIN}
           group: Media
+        Stable-Diffusion:
+          url: https://stable-diffusion.${EXTERNAL_DOMAIN}
+          group: AI
         Tautulli:
           url: https://tautulli.${EXTERNAL_DOMAIN}
           group: Media
@@ -92,16 +98,19 @@ spec:
         Unifi:
           url: https://unifi.${EXTERNAL_DOMAIN}
           group: Network
+        VaultWarden:
+          url: https://vault.${EXTERNAL_DOMAIN}
+          group: Security
         Wizarr:
           url: https://join.${EXTERNAL_DOMAIN}
           group: Media
           skip_path_regex: |
             ^/j/
             ^/join
-            ^/setup/*
+            ^/help
             ^/static/
         Zigbee2Mqtt:
-          url: https://zigbee2mqtt.${EXTERNAL_DOMAIN}
+          url: https://zigbee.${EXTERNAL_DOMAIN}
           group: Media
     - name: oauth2_applications
       value:
@@ -109,9 +118,20 @@ spec:
           url: https://grafana.${EXTERNAL_DOMAIN}
           group: Monitor
           client_id: grafana
+          client_type: confidential
           client_secret: ${GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET}
           redirect_uris: 
             - https://grafana.${EXTERNAL_DOMAIN}/login/generic_oauth
+        Mealie:
+          url: https://mealie.${EXTERNAL_DOMAIN}
+          group: Home
+          client_id: mealie
+          client_type: public
+          client_secret: null
+          redirect_uris:
+            - https://mealie.${EXTERNAL_DOMAIN}/login
+            - https://mealie.${EXTERNAL_DOMAIN}/login?direct=1
+            - https://mealie.${EXTERNAL_DOMAIN}/login*
     - name: groups
       value:
         ${ORGANIZATION}-Admins:
@@ -122,6 +142,13 @@ spec:
           name: "Grafana Admins"
           superuser: false
           parent: "${ORGANIZATION}-Admins"
+        Mealie-Admins:
+          name: "Mealie Admins"
+          superuser: false
+          parent: "${ORGANIZATION}-Admins"
+        Mealie-Users:
+          name: "Mealie Users"
+          superuser: false
     - name: users
       value:
         lucaspick:
