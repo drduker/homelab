@@ -41,7 +41,55 @@ new config with your added changes then run `apply.sh` to apply them
 
 ```
 115::
-talosctl upgrade --image factory.talos.dev/installer/438324ed8432f8af282682386a5d5da7c6d75a81b31716cc0be8252a9186463e:v1.6.0 -n 192.168.1.115 --force
+talosctl upgrade --image factory.talos.dev/installer/23f7cdca23660abd2f59dc80c03398bddd606f03826d13f96aa58ca3e867f019:v1.9.1 -n 192.168.1.115 --force
 83:
-talosctl upgrade --image factory.talos.dev/installer/8fa70005e5ccd4407b8edab3d244dde79daf1ff0f2c1cc408f82a651eaf1b8fa:v1.6.0 -n 192.168.1.83 -f
+talosctl upgrade --image factory.talos.dev/installer/23f7cdca23660abd2f59dc80c03398bddd606f03826d13f96aa58ca3e867f019:v1.9.1 -n 192.168.1.83 -f
 ```
+
+
+talosctl upgrade --image factory.talos.dev/installer/cc5c60ed882f46684a2d43b210e0fe5f04481ea175a95b671c10964b444ce8fc:v1.9.1 -n 192.168.69.1 -f
+
+
+
+
+ talosctl upgrade --talosconfig=./clusterconfig/talosconfig --nodes=192.168.69.1 --image=factory.talos.dev/installer/23f7cdca23660abd2f59dc80c03398bddd606f03826d13f96aa58ca3e867f019:v1.9.1 --force;
+
+export TALOSCONFIG=~/workspace/homelab/kubernetes/talos/clusterconfig/talosconfig
+sops -i -d talsecret.sops.yaml
+talhelper genconfig
+export TALOSCONFIG=~/workspace/homelab/kubernetes/talos/clusterconfig/talosconfig
+talhelper genconfig
+sops -i -e talsecret.sops.yaml
+
+
+talosctl apply-config -n 192.168.69.1 -f ./clusterconfig/pickhaus-pickhaus-node-001.internal.pick.haus.yaml
+talosctl apply-config -n 192.168.69.2 -f ./clusterconfig/pickhaus-pickhaus-node-002.internal.pick.haus.yaml
+talosctl apply-config -n 192.168.69.3 -f ./clusterconfig/pickhaus-pickhaus-node-003.internal.pick.haus.yaml
+talosctl apply-config -n 192.168.69.4 -f ./clusterconfig/pickhaus-pickhaus-node-004.internal.pick.haus.yaml
+talosctl apply-config -n 192.168.69.5 -f ./clusterconfig/pickhaus-pickhaus-node-005.internal.pick.haus.yaml
+
+
+ talhelper gencommand upgrade
+
+
+   $ talosctl upgrade --nodes 10.20.30.40 \
+
+      --image ghcr.io/siderolabs/installer:v1.9.0
+
+
+talhelper gencommand reset --extra-flags --system-labels-to-wipe=STATE,--system-labels-to-wipe=EPHEMERAL,--graceful=false,--reboot
+
+
+talosctl reset --talosconfig=./clusterconfig/talosconfig --nodes=192.168.69.1 --system-labels-to-wipe=STATE --system-labels-to-wipe=EPHEMERAL --graceful=false --reboot;
+
+
+
+
+talosctl apply-config -n 192.168.69.1 -f ./clusterconfig/pickhaus-pickhaus-node-001.internal.pick.haus.yaml
+
+
+
+talosctl reset --talosconfig=./clusterconfig/talosconfig --nodes=192.168.69.1 --system-labels-to-wipe=STATE --system-labels-to-wipe=EPHEMERAL --graceful=false --reboot;
+talosctl reset --talosconfig=./clusterconfig/talosconfig --nodes=192.168.69.2 --system-labels-to-wipe=STATE --system-labels-to-wipe=EPHEMERAL --graceful=false --reboot;
+talosctl reset --talosconfig=./clusterconfig/talosconfig --nodes=192.168.69.3 --system-labels-to-wipe=STATE --system-labels-to-wipe=EPHEMERAL --graceful=false --reboot;
+talosctl reset --talosconfig=./clusterconfig/talosconfig --nodes=192.168.69.4 --system-labels-to-wipe=STATE --system-labels-to-wipe=EPHEMERAL --graceful=false --reboot;

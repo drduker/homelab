@@ -8,12 +8,12 @@ talosctl apply-config -i -n 192.168.69.1 -f ./clusterconfig/pickhaus-pickhaus-no
 talosctl apply-config -i -n 192.168.69.2 -f ./clusterconfig/pickhaus-pickhaus-node-002.internal.pick.haus.yaml
 talosctl apply-config -i -n 192.168.69.3 -f ./clusterconfig/pickhaus-pickhaus-node-003.internal.pick.haus.yaml
 talosctl apply-config -i -n 192.168.69.4 -f ./clusterconfig/pickhaus-pickhaus-node-004.internal.pick.haus.yaml
-talosctl apply-config -i -n 192.168.69.5 -f ./clusterconfig/pickhaus-pickhaus-node-005.internal.pick.haus.yaml
 
 echo "Sleeping..."
 sleep 120
 
-talosctl config node "192.168.69.1"; talosctl config endpoint 192.168.69.1 192.168.69.2 192.168.69.3 192.168.69.4 192.168.69.5
+talosctl config node "192.168.69.1"; talosctl config endpoint 192.168.69.1 192.168.69.2 192.168.69.3 192.168.69.4
+
 echo "Running bootstrap..."
 talosctl bootstrap
 

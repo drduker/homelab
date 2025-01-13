@@ -2,9 +2,9 @@
 clusterName: ${CLUSTER_NAME}
 
 # renovate: datasource=docker depName=ghcr.io/siderolabs/installer
-talosVersion: v1.7.4
+talosVersion: v1.9.1
 # renovate: datasource=github-releases extractVersion=^v(?<version>.*)$ depName=kubernetes/kubernetes
-kubernetesVersion: 1.30.0
+kubernetesVersion: 1.32.0
 
 endpoint: "https://${CLUSTER_NAME}.${INTERNAL_DOMAIN}:6443"
 
@@ -200,11 +200,10 @@ controlPlane:
       systemExtensions:
           officialExtensions:
               - siderolabs/fuse3
-              - siderolabs/i915-ucode
               - siderolabs/intel-ucode
               - siderolabs/iscsi-tools
               - siderolabs/util-linux-tools
-              - siderolabs/v4l-uvc-drivers
+              # - siderolabs/v4l-uvc-drivers
               # - siderolabs/zfs
   patches:
     # Configure containerd
