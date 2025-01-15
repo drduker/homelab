@@ -20,7 +20,7 @@ cgroup:
   hostRoot: /sys/fs/cgroup
 
 cluster:
-  name: ${CLUSTER_NAME}
+  name: pickhaus
   id: 1
 
 cni:
