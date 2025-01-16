@@ -29,7 +29,6 @@ cni:
 enableCnpStatusUpdates: true
 endpointStatus:
   enabled: true
-  status: "policy"
 
 k8sServiceHost: localhost
 
