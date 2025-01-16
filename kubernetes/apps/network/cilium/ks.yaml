@@ -28,7 +28,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 10m
-  path: "./kubernetes/${CLUSTER}/apps/network/cilium/gateway"
+  path: "./kubernetes/apps/network/cilium/gateway"
   prune: true
   sourceRef:
     kind: GitRepository
