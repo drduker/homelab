@@ -6,4 +6,6 @@ namespace: ai
 resources:
   - ./helmrelease.yaml
   - ./pvc.yaml
+  - ./httproute-ollama.yaml
+
 
