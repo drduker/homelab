@@ -2,7 +2,7 @@
 autoDirectNodeRoutes: true
 
 bgpControlPlane:
-  enabled: false
+  enabled: true
   secretsNamespace:
     name: network
 
