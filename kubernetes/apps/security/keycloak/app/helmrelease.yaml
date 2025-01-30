@@ -15,6 +15,7 @@ spec:
         name: bigbang-keycloak-main
         namespace: flux-system
       interval: 30m
+      path: chart
   values:
     dbchecker:
       image:

@@ -6,4 +6,5 @@ metadata:
   namespace: flux-system
 spec:
   interval: 2h
-  url: https://github.io/drduker/charts
+  type: oci
+  url: oci://github.io/drduker/charts
