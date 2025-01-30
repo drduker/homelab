@@ -17,8 +17,10 @@ configMapGenerator:
 
 secretGenerator:
 - name: tunnel-credentials
+  namespace: network
   files:
   - credentials.json
 - name: tunnel-origin-cert
+  namespace: network
   files:
   - cert.pem
