@@ -7,4 +7,4 @@ metadata:
 spec:
   interval: 2h
   type: oci
-  url: oci://github.io/drduker/charts
+  url: oci://ghcr.io/drduker/charts/keycloak
