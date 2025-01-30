@@ -12,6 +12,7 @@ generatorOptions:
 
 configMapGenerator:
 - name: cloudflared
+  namespace: network
   files:
   - config.yaml
 
