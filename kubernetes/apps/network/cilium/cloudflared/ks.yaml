@@ -19,6 +19,8 @@ secretGenerator:
 - name: tunnel-credentials
   files:
   - credentials.json
+  provider: sops
 - name: tunnel-origin-cert
   files:
   - cert.pem
+  provider: sops
