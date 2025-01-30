@@ -7,12 +7,12 @@ no-autoupdate: true
 # https://developers.cloudflare.com/cloudflare-one/connections/connect-apps/configuration/ingress
 ingress:
 - hostname: '*.pick.haus'
-  service: http://cilium-gateway-public-gateway.network.svc.cluster.local:443
+  service: https://cilium-gateway-public-gateway.network.svc.cluster.local:443
 - hostname: 'ollama.pick.haus'
-  service: http://cilium-gateway-public-gateway.network.svc.cluster.local:443
+  service: https://cilium-gateway-public-gateway.network.svc.cluster.local:443
 - hostname: 'hubble.pick.haus'
-  service: http://cilium-gateway-public-gateway.network.svc.cluster.local:443
+  service: https://cilium-gateway-public-gateway.network.svc.cluster.local:443
 - hostname: '*.homelab.ing'
-  service: http://cilium-gateway-public-gateway.network.svc.cluster.local:443
+  service: https://cilium-gateway-public-gateway.network.svc.cluster.local:443
 # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
 - service: http_status:503
