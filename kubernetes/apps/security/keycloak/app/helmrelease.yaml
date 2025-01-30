@@ -11,11 +11,10 @@ spec:
       chart: keycloak
       version: 2.5.1-bb.5
       sourceRef:
-        kind: GitRepository
-        name: bigbang-keycloak-main
+        kind: HelmRepository
+        name: drduker
         namespace: flux-system
       interval: 30m
-      path: chart
   values:
     dbchecker:
       image:
