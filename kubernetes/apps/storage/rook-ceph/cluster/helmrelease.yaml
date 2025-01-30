@@ -98,7 +98,7 @@ spec:
         nodes:
           - name: "pickhaus-node-001"
             devices:
-              - name: "/dev/nvme0n1"
+              - name: "/dev/nvme1n1"
           - name: "pickhaus-node-002"
             devices:
               - name: "/dev/nvme0n1"
@@ -108,9 +108,6 @@ spec:
           - name: "pickhaus-node-004"
             devices:
               - name: "/dev/nvme0n1"
-          - name: "pickhaus-node-005"
-            devices:
-              - name: "/dev/nvme1n1"
     ingress:
       ingressClassName: "nginx"
       dashboard:
