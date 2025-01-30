@@ -19,16 +19,16 @@ spec:
   postBuild:
     substitute:
       APP: ollama-backend
-      VOLSYNC_CLAIM: ollama-backend-data
-      VOLSYNC_CAPACITY: 10Gi
-    substituteFrom:
-      - kind: Secret
-        name: flux-volsync-secret
+      # VOLSYNC_CLAIM: ollama-backend-data
+      # VOLSYNC_CAPACITY: 10Gi
+    # substituteFrom:
+    #   - kind: Secret
+    #     name: flux-volsync-secret
   decryption: 
     provider: sops
-  dependsOn:
-    - name: cluster-apps-volsync
-    - name: cluster-apps-rook-ceph-cluster
+  # dependsOn:
+  #   - name: cluster-apps-volsync
+  #   - name: cluster-apps-rook-ceph-cluster
 ---
 # yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -50,11 +50,11 @@ spec:
   postBuild:
     substitute:
       APP: ollama-ui
-      VOLSYNC_CLAIM: ollama-ui-data
-      VOLSYNC_CAPACITY: 2Gi
-    substituteFrom:
-      - kind: Secret
-        name: flux-volsync-secret
+      # VOLSYNC_CLAIM: ollama-ui-data
+      # VOLSYNC_CAPACITY: 2Gi
+    # substituteFrom:
+    #   - kind: Secret
+    #     name: flux-volsync-secret
   decryption: 
     provider: sops
   # dependsOn:
