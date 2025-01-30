@@ -8,8 +8,8 @@ no-autoupdate: true
 ingress:
 - hostname: 'ollama.pick.haus'
   service: https://ollama-ui.ai.svc.cluster.local:8080
-- hostname: 'hubble.pick.haus'
-  service: https://cilium-gateway-public-gateway.network.svc.cluster.local:443
+- hostname: '*.pick.haus'
+  service: http://cilium-gateway-public-gateway.network.svc.cluster.local:80
 # - hostname: '*.homelab.ing'
 #   service: https://cilium-gateway-public-gateway.network.svc.cluster.local:443
 # This rule matches any traffic which didn't match a previous rule, and responds with HTTP 404.
