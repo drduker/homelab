@@ -85,7 +85,7 @@ spec:
     substituteFrom: []
   decryption: 
     provider: sops
-  dependsOn:
-    - name: cluster-apps-intel-device-plugins-gpu
-    - name: cluster-apps-ollama-backend-pvc
-    - name: cluster-apps-ollama-ui-pvc
+  # dependsOn:
+  #   - name: cluster-apps-intel-device-plugins-gpu
+  #   - name: cluster-apps-ollama-backend-pvc
+  #   - name: cluster-apps-ollama-ui-pvc
