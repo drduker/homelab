@@ -7,6 +7,7 @@ resources:
   - ./secret-authentik.sops.yaml
   - ./helmrelease.yaml
   - ./clusterpolicy.yaml
+  - ./httproute-auth.yaml
 configMapGenerator:
   - name: authentik-branding
     files:
