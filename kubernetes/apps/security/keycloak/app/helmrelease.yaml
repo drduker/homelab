@@ -30,4 +30,11 @@ spec:
         registry: r.gamewarden.io
         repository: base/postgres-cloudnative-pg
         tag: '16.4-r0'
+      securityContext:
+        fsGroup: 70
+        runAsUser: 70
+        runAsGroup: 70
+      containerSecurityContext:
+        runAsUser: 70
+
 # - auth.${EXTERNAL_DOMAIN}
