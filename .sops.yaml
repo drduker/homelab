@@ -16,3 +16,7 @@ creation_rules:
     key_groups:
       - age:
           - age1p8hda0uw768yg608j8spnwx0fwu5ze88kpchufmgw4v87u2c84dsjns37d
+  - path_regex: kubernetes/.*(cert.pem|config.json|credentials.json)
+    key_groups:
+      - age:
+          - age1p8hda0uw768yg608j8spnwx0fwu5ze88kpchufmgw4v87u2c84dsjns37d
