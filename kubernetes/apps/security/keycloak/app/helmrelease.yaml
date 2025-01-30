@@ -1,0 +1,33 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: keycloak
+  namespace: security
+spec:
+  interval: 30m
+  chart:
+    spec:
+      chart: keycloak
+      version: 2.5.1-bb.5
+      sourceRef:
+        kind: HelmRepository
+        name: drduker
+        namespace: flux-system
+      interval: 30m
+  values:
+    dbchecker:
+      image:
+        repository: r.gamewarden.io/base/postgres-cloudnative-pg
+        tag: '16.4-r0'
+    image:
+      repository: quay.io/keycloak/keycloak
+      tag: "26.0.8"
+    postgresql:
+      volume:
+        storageClass: ceph-block
+      image:
+        registry: r.gamewarden.io
+        repository: base/postgres-cloudnative-pg
+        tag: '16.4-r0'
+# - auth.${EXTERNAL_DOMAIN}

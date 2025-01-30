@@ -1,0 +1,23 @@
+---
+# yaml-language-server: $schema=https://kubernetes-schemas.pages.dev/kustomize.toolkit.fluxcd.io/kustomization_v1.json
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: cluster-apps-keycloak
+  namespace: flux-system
+spec:
+  interval: 10m
+  path: "./kubernetes/apps/security/keycloak/app"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: k8s-home-ops
+  wait: true
+  postBuild:
+    substituteFrom: []
+  decryption: 
+    provider: sops
+  dependsOn:
+    - name: cluster-apps-kyverno
+    # - name: cluster-apps-smtp-relay
+    # - name: cluster-apps-grafana

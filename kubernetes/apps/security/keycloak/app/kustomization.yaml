@@ -1,0 +1,15 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/kustomization
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: security
+resources:
+  - ./helmrelease.yaml
+  - ./httproute-auth.yaml
+# configMapGenerator:
+#   - name: authentik-branding
+#     files:
+#       - ./branding/pickhaus-favicon.png
+#       - ./branding/pickhaus-logo.svg
+#     options:
+#       disableNameSuffixHash: true
