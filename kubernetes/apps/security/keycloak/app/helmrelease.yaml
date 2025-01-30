@@ -11,8 +11,8 @@ spec:
       chart: keycloak
       version: 2.5.1-bb.5
       sourceRef:
-        kind: HelmRepository
-        name: drduker
+        kind: OCIRepository
+        name: oci-drduker
         namespace: flux-system
       interval: 30m
   values:
